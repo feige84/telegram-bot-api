@@ -93,7 +93,7 @@ const (
 	// this update in the list of allowed_updates to receive these updates.
 	UpdateTypeChatMember = "chat_member"
 
-	// UpdateTypeChatJoinRequest is request to join the chat has been sent. 
+	// UpdateTypeChatJoinRequest is request to join the chat has been sent.
 	// The bot must have the can_invite_users administrator right in the chat to receive these updates.
 	UpdateTypeChatJoinRequest = "chat_join_request"
 )
@@ -1462,6 +1462,9 @@ type PromoteChatMemberConfig struct {
 	CanRestrictMembers  bool
 	CanPinMessages      bool
 	CanPromoteMembers   bool
+	CanPostStories      bool
+	CanEditStories      bool
+	CanDeleteStories    bool
 	CanManageTopics     bool
 }
 
@@ -1486,6 +1489,9 @@ func (config PromoteChatMemberConfig) params() (Params, error) {
 	params.AddBool("can_restrict_members", config.CanRestrictMembers)
 	params.AddBool("can_pin_messages", config.CanPinMessages)
 	params.AddBool("can_promote_members", config.CanPromoteMembers)
+	params.AddBool("can_post_stories", config.CanPostStories)
+	params.AddBool("can_edit_stories", config.CanEditStories)
+	params.AddBool("can_delete_stories", config.CanDeleteStories)
 	params.AddBool("can_manage_topics", config.CanManageTopics)
 
 	return params, nil
@@ -2695,6 +2701,17 @@ type UnhideGeneralForumTopicConfig struct{ BaseForum }
 
 func (config UnhideGeneralForumTopicConfig) method() string {
 	return "unhideGeneralForumTopic"
+}
+
+// UnpinAllGeneralForumTopicMessagesConfig allows you to to clear
+// the list of pinned messages in a General forum topic.
+// The bot must be an administrator in the chat for this to work
+// and must have the can_pin_messages administrator right in the supergroup.
+// Returns True on success.
+type UnpinAllGeneralForumTopicMessagesConfig struct{ BaseForum }
+
+func (config UnpinAllGeneralForumTopicMessagesConfig) method() string {
+	return "unpinAllGeneralForumTopicMessages"
 }
 
 // MediaGroupConfig allows you to send a group of media.
